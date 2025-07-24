@@ -13,6 +13,7 @@ function LogIn() {
       const res = await request<{ token: string }>("/api/hr/user/sign-in", "POST", {
         username,
         password,
+        include:"token"
       });
       
       localStorage.setItem("token", res.token);
