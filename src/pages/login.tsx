@@ -10,11 +10,11 @@ function LogIn() {
   const enterRequest = useCallback(async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      const res = await request<{ token: string }>("/hr/user/sign-in", "POST", {
+      const res = await request<{ token: string }>("/api/hr/user/sign-in", "POST", {
         username,
         password,
-        include: "token",
       });
+      
       localStorage.setItem("token", res.token);
       if (res.token) navigate("/main");
       console.log(res.token);

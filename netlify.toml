@@ -1,0 +1,5 @@
+[[redirects]]
+  from = "/api/*"
+  to = "http://apialfa.apoint.uz/:splat"
+  status = 200
+  force = true
