@@ -1,25 +1,24 @@
+import axios from "axios";
 import { useCallback, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { request } from "../api/apiAxios";
 
 function LogIn() {
-  const [username, setUsername] = useState<string>("");
-  const [password, setPassword] = useState<string>("");
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
   const navigate = useNavigate();
 
   const enterRequest = useCallback(async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      const res = await request<{ token: string }>("/hr/user/sign-in", "POST", {
-        username,
-        password,
-        include: "token",
-      });
-      localStorage.setItem("token", res.token);
-      if (res.token) navigate("/main");
-      console.log(res.token);
+      const res = await axios.get(`/api/hr/user/sign-in?username=${username}&password=${password}&include=token`);
+      console.log(res);
+      
+      if (res) {
+        // localStorage.setItem("token", res.token);
+        navigate("/main");
+      }
     } catch (error) {
-      console.log(error, "nimadur xato");
+      console.error("Xatolik:", error);
       alert("Xato parol yoki foydalanuvchi ismi");
     } finally {
       setUsername("");
