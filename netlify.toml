@@ -1,5 +1,5 @@
 [[redirects]]
   from = "/api/*"
-  to = "http://apialfa.apoint.uz/:splat"
+  to = "http://apialfa.apoint.uz/v1/:splat"
   status = 200
   force = true
