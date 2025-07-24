@@ -2,7 +2,7 @@
     "rewrites": [
       {
         "source": "/api/:path*",
-        "destination": "http://sizning-backend-url.uz/:path*"
+        "destination": "http://apialfa.apoint.uz/v1/:path*"
       }
     ]
   }
