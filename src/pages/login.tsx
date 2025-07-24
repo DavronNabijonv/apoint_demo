@@ -10,18 +10,22 @@ function LogIn() {
   const enterRequest = useCallback(async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      const res = await request<{token: string}>(`/hr/user/sign-in?username=${username}&password=${password}&include=token`);
-      localStorage.setItem("token",res.token);
-    if(res.token){navigate('/main')}
+      const res = await request<{ token: string }>("/hr/user/sign-in", "POST", {
+        username,
+        password,
+        include: "token",
+      });
+      localStorage.setItem("token", res.token);
+      if (res.token) navigate("/main");
       console.log(res.token);
-    } catch(error) {
-      console.log(error, 'nimadur xato');
+    } catch (error) {
+      console.log(error, "nimadur xato");
       alert("Xato parol yoki foydalanuvchi ismi");
     } finally {
-      setUsername('');
-      setPassword('');
+      setUsername("");
+      setPassword("");
     }
-  }, [username, password]);
+  }, [username, password, navigate]);
 
   return (
     <div className="w-full h-full absolute flex items-center justify-center gap-5">
