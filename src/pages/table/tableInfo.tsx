@@ -67,7 +67,7 @@ export const MaterialTable = ({ data }: { data: GroupedData }) => {
 
   return (
     <div className="overflow-x-auto p-4">
-      {/* Umumiy jadval hisoblari */}
+      {/* Umumiy jadval hisoblari , everything will be okey */}
       <div className="bg-gray-100 p-4 rounded-lg mb-4">
         <h2 className="text-lg font-bold mb-2">Umumiy hisob</h2>
         <div className="flex justify-between">
