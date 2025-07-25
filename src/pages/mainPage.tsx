@@ -1,5 +1,6 @@
 import axios from "axios";
-import { useEffect } from "react";
+import { useEffect, useState, useCallback } from "react";
+import { MaterialTable } from "./table/tableInfo";
 
 // LocalStorage'dan tokenni olish
 const token = localStorage.getItem("token");
@@ -25,17 +26,36 @@ type MaterialItem = {
   width: string;
 };
 
-type GroupedByCategory = {
-  [category: string]: MaterialItem[];
+type GroupedData = {
+  [parent: string]: {
+    [category: string]: MaterialItem[];
+  };
 };
-
-type GroupedByParent = {
-  [parent: string]: GroupedByCategory;
-};
-
-
 
 export default function MainPage() {
+  const [allData, setAllData] = useState<GroupedData>({});
+
+  const groupMaterialsByParentAndCategory = useCallback((data: MaterialItem[]): GroupedData => {
+    const grouped: GroupedData = {};
+  
+    data.forEach(item => {
+      const parent = item.parent || "Boshqa";
+      const category = item.category || "Noma'lum";
+  
+      if (!grouped[parent]) {
+        grouped[parent] = {};
+      }
+  
+      if (!grouped[parent][category]) {
+        grouped[parent][category] = [];
+      }
+  
+      grouped[parent][category].push(item);
+    });
+  
+    return grouped;
+  }, []);
+
   useEffect(() => {
     axios
       .get(
@@ -47,31 +67,18 @@ export default function MainPage() {
           },
         }
       )
-      .then((res) => console.log(groupMaterialsByParentAndCategory(res.data)));
+      .then((res) => {
+        const groupedData = groupMaterialsByParentAndCategory(res.data);
+        setAllData(groupedData);
+      })
+      .catch(error => {
+        console.error("Ma'lumotlarni olishda xatolik:", error);
+      });
+  }, [groupMaterialsByParentAndCategory]);
 
-      function groupMaterialsByParentAndCategory(data: MaterialItem[]): GroupedByParent {
-        const grouped: GroupedByParent = {};
-      
-        data.forEach(item => {
-          const parent = item.parent || "Boshqa";
-          const category = item.category || "Noma'lum";
-      
-          if (!grouped[parent]) {
-            grouped[parent] = {};
-          }
-      
-          if (!grouped[parent][category]) {
-            grouped[parent][category] = [];
-          }
-      
-          grouped[parent][category].push(item);
-        });
-      
-        return grouped;
-      }
-      
-      
-  });
-
-  return <div>MainPage</div>;
+  return (
+    <div>
+      <MaterialTable data={allData} />
+    </div>
+  );
 }
