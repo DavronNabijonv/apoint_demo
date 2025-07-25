@@ -11,10 +11,10 @@ function LogIn() {
     e.preventDefault();
     try {
       const res = await axios.get(`/api/hr/user/sign-in?username=${username}&password=${password}&include=token`);
-      console.log(res);
+      console.log('response body', res.data.token.token);
       
-      if (res) {
-        // localStorage.setItem("token", res.token);
+      localStorage.setItem("token", res?.data.token.token);
+      if (res.data.token.token) {
         navigate("/main");
       }
     } catch (error) {
