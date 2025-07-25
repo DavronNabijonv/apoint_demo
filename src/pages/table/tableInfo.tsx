@@ -49,6 +49,18 @@ export const MaterialTable = ({ data }: { data: GroupedData }) => {
   const totals = calculateTotals();
 
   return (
+    <div className="overflow-x-auto p-4">
+      {/* Umumiy jadval hisoblari , everything will be okey salom */}
+      <div className="bg-gray-100 p-4 rounded-lg mb-4">
+        <h2 className="text-lg font-bold mb-2">Umumiy hisob</h2>
+        <div className="flex justify-between">
+          <span>Jami mahsulotlar: {grandTotals.count}</span>
+          <span>Jami summa: {grandTotals.sum.toLocaleString()} so'm</span>
+        </div>
+      </div>
+
+      {/* Asosiy jadval */}
+      <table className="min-w-full bg-white border border-gray-200">
     <div className="overflow-x-auto">
       <table className="min-w-full border-collapse border border-gray-200">
         <thead>
